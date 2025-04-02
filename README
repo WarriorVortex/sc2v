@@ -31,7 +31,8 @@ INSTRUCTIONS OF USE:
 1- Compiling the sources:
 
 The sc2v translator is based on lex and yacc tools. You need lex and yacc
-installed before trying to compile sc2v.
+installed before trying to compile sc2v. On Windows operating systems, you can
+find them in MinGW package.
 
 For compiling the sources just type "make" under the directory you unzipped the
 fonts. It will generate three executables: sc2v_step1 and sc2v_step2 sc2v_step3.
@@ -40,6 +41,7 @@ fonts. It will generate three executables: sc2v_step1 and sc2v_step2 sc2v_step3.
 2- Translating an SystemC module:
 
 To translate use sc2v.sh script in the /bin directory just writting sc2v.sh module_name
+(or sc2v.bat module_name on windows)
 
 3- Format and restrictions of the SystemC files:
 	

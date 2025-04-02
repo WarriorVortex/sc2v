@@ -19,13 +19,25 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 %{
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "sglib.h"
 #include "sc2v_step1.h"
+#include "lists.h"
 
+/* Global var to store Regs */
+   extern RegNode *regslist;
+/* Global var to store Defines */
+   extern DefineNode *defineslist;
+/*Global var to store Structs */
+   extern StructNode *structslist;
+   extern StructRegNode *structsreglist;
+
+  extern int yyparse(void);
+  int yylex(void);
+	
   int lineno = 1;
   int processfound = 0;
   int switchfound = 0;
@@ -83,7 +95,7 @@
     return 1;
   }
 
-  main ()
+  int main ()
   {
     int i;
 
@@ -121,7 +133,7 @@
 
     FILE *yyin = stdin;
     FILE *yyout = stdout;
-    yyparse ();
+    yyparse();
     fclose (FILE_WRITES);
     fclose (FILE_DEFINES);
 
@@ -219,6 +231,8 @@ command:
   definemacro
   |
   defineword
+  |
+  definewordsimple
   |
   definenumber
   |
@@ -358,6 +372,27 @@ READ OPENPAR CLOSEPAR
     fprintf (file, ".read()");
 
 }
+
+definewordsimple:
+DEFINE WORD 
+{
+
+  defineparenthesis = 0;
+  if (translate == 1 && verilog == 0)
+    {
+      if (processfound)
+	{
+	  fprintf (file, "`define %s\n", (char *) $2);
+	}
+      else
+	{
+	  fprintf (FILE_DEFINES, "`define %s\n", (char *) $2);
+	}
+    }
+  else if (verilog == 1)
+    fprintf (file, "#define %s\n", (char *) $2);
+
+};
 
 defineword:
 DEFINE WORD WORD

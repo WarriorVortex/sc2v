@@ -19,119 +19,12 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef SC2V_STEP2_H
+#define SC2V_STEP2_H
+
 #include "sglib.h"
+#include "lists.h"
  
-#define MAX_NAME_LENGTH 256
- 
-typedef struct _write_node
-{
-  char name[MAX_NAME_LENGTH];
-  struct _write_node *next;
-} WriteNode;
-
-typedef struct _port_node
-{
-  char name[MAX_NAME_LENGTH];
-  char tipo[MAX_NAME_LENGTH];
-  int size;
-  struct _port_node *next;
-  int pflag;
-} PortNode;
-
-typedef struct _signal_node
-{
-  char name[MAX_NAME_LENGTH];
-  int size;
-  int arraysize;
-  struct _signal_node *next;
-  int sflag;
-} SignalNode;
-
-typedef struct _bind_node
-{
-  char nameport[MAX_NAME_LENGTH];
-  char namebind[MAX_NAME_LENGTH];
-  struct _bind_node *next;
-} BindNode;
-
-typedef struct _instance_node
-{
-  char nameinstance[MAX_NAME_LENGTH];
-  char namemodulo[MAX_NAME_LENGTH];
-  BindNode *bindslist;
-  struct _instance_node *next;
-} InstanceNode;
-
-typedef struct _funcinput_node
-{
-  int lenght;
-  char name[MAX_NAME_LENGTH];
-  struct _funcinput_node *next;
-  int sgnflag;
-} FunctionInputNode;
-
-
-typedef struct _function_node
-{
-  char name[MAX_NAME_LENGTH];
-  int outputlenght;
-  FunctionInputNode *list;
-  struct _function_node *next;
-  int sgnflag;
-} FunctionNode;
-
-typedef struct _sensibility_node
-{
-  char tipo[MAX_NAME_LENGTH];
-  char name[MAX_NAME_LENGTH];
-  struct _sensibility_node *next;
-} SensibilityNode;
-
-
-typedef struct _process_node
-{
-  char name[MAX_NAME_LENGTH];
-  char tipo[MAX_NAME_LENGTH];			//comb or seq
-  SensibilityNode *list;
-  struct _process_node *next;
-} ProcessNode;
-
-typedef struct _enumerates_node
-{
-  char name[MAX_NAME_LENGTH];
-  struct _enumerates_node *next;
-} EnumeratesNode;
-
-typedef struct _enumlist_node
-{
-  char name[MAX_NAME_LENGTH];
-  int istype;
-  EnumeratesNode *list;
-  struct _enumlist_node *next;
-} EnumListNode;
-
-
-/*Global var to read from file_writes.sc2v*/
-  WriteNode *writeslist;
-/*Global var to store ports*/
-  PortNode *portlist;
-/* Global var to store signals*/
-  SignalNode *signalslist;
-/* Global var to store sensitivity list*/
-  SensibilityNode *sensibilitylist;
-/* Global var to store process list*/
-  ProcessNode *processlist;
-/* Global var to store instantiated modules*/
-  InstanceNode *instanceslist;
-/*List of enumerates*/
-  EnumeratesNode *enumerateslist;
-  EnumListNode *enumlistlist;
-/* Global var to store functions inputs list*/
-  FunctionInputNode *funcinputslist;
-/* Global var to store process list*/
-  FunctionNode *functionslist;
-
-
 
 /* Functions for DEFINES list*/
 void ShowDefines (char *filedefines);
@@ -182,3 +75,5 @@ void ShowFunctionInputs (FunctionInputNode * list);
 /* Functions for functions list*/
 FunctionNode *InsertFunction (FunctionNode *list, char *name,FunctionInputNode *InputsList,int outputlenght,int flag);
 void ShowFunctionCode (FunctionNode *list);
+
+#endif

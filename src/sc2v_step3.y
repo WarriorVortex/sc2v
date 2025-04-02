@@ -23,6 +23,10 @@
 %{
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+
+  extern int yyparse(void);
+  int yylex(void);
 
   int module_found = 0;
   int concat_found = 0;
@@ -41,7 +45,7 @@
     return 1;
   }
 
-  main ()
+  int main ()
   {
     concat_par_num = (int *) malloc (16 * sizeof (int));
     *concat_par_num = 0;

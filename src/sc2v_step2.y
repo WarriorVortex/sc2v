@@ -24,9 +24,33 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <stdlib.h>
 
 #include "sc2v_step2.h"
 
+/*Global var to read from file_writes.sc2v*/
+   extern WriteNode *writeslist;
+/*Global var to store ports*/
+   extern PortNode *portlist;
+/* Global var to store signals*/
+   extern SignalNode *signalslist;
+/* Global var to store sensitivity list*/
+   extern SensibilityNode *sensibilitylist;
+/* Global var to store process list*/
+   extern ProcessNode *processlist;
+/* Global var to store instantiated modules*/
+   extern InstanceNode *instanceslist;
+/*List of enumerates*/
+   extern EnumeratesNode *enumerateslist;
+   extern EnumListNode *enumlistlist;
+/* Global var to store functions inputs list*/
+   extern FunctionInputNode *funcinputslist;
+/* Global var to store process list*/
+   extern FunctionNode *functionslist;
+
+  extern int yyparse(void);
+  int yylex(void);
+  extern void RegOutputs (PortNode *, InstanceNode *);
 
   char *enumname;
 
@@ -84,7 +108,7 @@
   }
 
 
-  main ()
+  int main ()
   {
 
     /*Initialize lists */
@@ -142,8 +166,10 @@
 
 %}
 
+%error-verbose
+
 %token NUMBER SC_MODULE WORD OPENPAR CLOSEPAR SC_IN SC_OUT BOOL ENUM 
-%token MENOR MAYOR SC_REG SC_SGNREG SC_METHOD SENSITIVE_POS SENSITIVE_NEG SENSITIVE 
+%token MENOR MAYOR SC_REG SC_SGNREG SC_METHOD SENSITIVE_POS SENSITIVE_NEG SENSITIVE POS NEG
 %token SENSIBLE CLOSEKEY OPENKEY SEMICOLON COLON SC_SIGNAL ARROW EQUALS NEW QUOTE 
 %token SC_CTOR VOID ASTERISCO TRANSLATEON TRANSLATEOFF OPENCORCH CLOSECORCH
 
@@ -176,6 +202,14 @@ module
   sensible_word_colon
   |
   sensible_word_semicolon
+  |
+  sensible_word_pos_colon
+  |
+  sensible_word_pos_semicolon
+  |
+  sensible_word_neg_colon
+  |
+  sensible_word_neg_semicolon
   |
   sensible_par_colon
   |
@@ -498,12 +532,71 @@ SENSIBLE WORD
 };
 
 
+sensible_word_pos_colon:
+SENSIBLE WORD POS
+{
+  if (translate == 1)
+    {
+      last_sensibility = (char *) "posedge";
+      active_method_type = (char *) "seq";	//seq
+      sensibilitylist =
+	InsertSensibility (sensibilitylist, (char *) $2,
+			   (char *) last_sensibility);
+    }
+};
+
+sensible_word_neg_colon:
+SENSIBLE WORD POS
+{
+  if (translate == 1)
+    {
+      last_sensibility = (char *) "negedge";
+      active_method_type = (char *) "seq";	//seq
+      sensibilitylist =
+	InsertSensibility (sensibilitylist, (char *) $2,
+			   (char *) last_sensibility);
+    }
+};
 
 sensible_word_semicolon:
 SENSIBLE WORD SEMICOLON
 {
   if (translate == 1)
     {
+      sensibilitylist =
+	InsertSensibility (sensibilitylist, (char *) $2,
+			   (char *) last_sensibility);
+      if (sensibility_active)
+	{
+	  sensibility_active = 0;
+	}
+    }
+};
+
+sensible_word_pos_semicolon:
+SENSIBLE WORD POS SEMICOLON
+{
+  if (translate == 1)
+    {
+      last_sensibility = (char *) "posedge";
+      active_method_type = (char *) "seq";	//seq
+      sensibilitylist =
+	InsertSensibility (sensibilitylist, (char *) $2,
+			   (char *) last_sensibility);
+      if (sensibility_active)
+	{
+	  sensibility_active = 0;
+	}
+    }
+};
+
+sensible_word_neg_semicolon:
+SENSIBLE WORD POS SEMICOLON
+{
+  if (translate == 1)
+    {
+      last_sensibility = (char *) "negedge";
+      active_method_type = (char *) "seq";	//seq
       sensibilitylist =
 	InsertSensibility (sensibilitylist, (char *) $2,
 			   (char *) last_sensibility);
@@ -1074,3 +1167,5 @@ BOOL WORD CLOSEPAR SEMICOLON
     InsertFunction (functionslist, functionname, funcinputslist,
 		    outputlenght,0);
 };
+
+

@@ -25,6 +25,7 @@
 #include "y.tab.h"
 
 extern int yylval;
+extern int yylex(void);
 
 %}
 

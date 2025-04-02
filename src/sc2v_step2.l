@@ -28,6 +28,7 @@ extern FILE* yyin;
 extern FILE* yyout;
 
 extern int lineno;
+extern int yylex(void);
 
 int includefound = 0;
 int linecomment = 0;
@@ -46,6 +47,7 @@ SC_METHOD               if(!includefound & !linecomment & !multilinecomment) ret
 SC_CTOR	               if(!includefound & !linecomment & !multilinecomment) return SC_CTOR;
 "void"                  if(!includefound & !linecomment & !multilinecomment) return VOID;
 sensitive_pos           if(!includefound & !linecomment & !multilinecomment) return SENSITIVE_POS;
+.pos\(\)                if(!includefound & !linecomment & !multilinecomment) return POS;
 sensitive_neg           if(!includefound & !linecomment & !multilinecomment) return SENSITIVE_NEG;
 sensitive               if(!includefound & !linecomment & !multilinecomment) return SENSITIVE;
 "<<"                    if(!includefound & !linecomment & !multilinecomment) return SENSIBLE;
@@ -89,7 +91,12 @@ sc_biguint              if(!includefound & !linecomment & !multilinecomment) ret
 "$"                     /* ignore */
 "."                     /* ignore */
 ":"                     /* ignore */
-"#include"              includefound = 1;
+"#include"                          includefound = 1;
+"#ifdef"                            if (!multilinecomment) linecomment = 1; 
+"#define"                           if (!multilinecomment) linecomment = 1; 
+"#ifndef"                           if (!multilinecomment) linecomment = 1; 
+"#else"                             if (!multilinecomment) linecomment = 1; 
+"#endif"                            if (!multilinecomment) linecomment = 1; 
 "//"                    if (!multilinecomment) linecomment = 1; 
 "/*"                    if (!linecomment) multilinecomment = 1;
 "*/"                    if (multilinecomment) multilinecomment = 0;

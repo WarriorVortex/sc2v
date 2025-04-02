@@ -19,45 +19,13 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifndef SC2V_STEP_1_H
+#define SC2V_STEP_1_H
+
 #include "sglib.h"
+#include "lists.h"
 
 #define MAX_NAME_LENGTH 256
-
-typedef struct _DefineNode
-{
-  char name[MAX_NAME_LENGTH];
-  struct _DefineNode *next;
-} DefineNode;
-
-typedef struct _RegNode
-{
-  char name[MAX_NAME_LENGTH];
-  char name2[MAX_NAME_LENGTH];
-  struct _RegNode *next;
-} RegNode;
-
-/*Each struct has a name and a list of the registers declared inside it*/
-typedef struct _StructRegNode
-{
-  char name[MAX_NAME_LENGTH];
-  int length;
-  struct _StructRegNode *next;
-} StructRegNode;
-
-typedef struct _StructNode
-{
-  char name[MAX_NAME_LENGTH];
-  StructRegNode *list;  
-  struct _StructNode *next;
-} StructNode;
-
-/* Global var to store Regs */
-  RegNode *regslist;
-/* Global var to store Defines */
-  DefineNode *defineslist;
-/*Global var to store Structs */
-  StructNode *structslist;
-  StructRegNode *structsreglist;
 
 /* Functions for defines list*/
 DefineNode *InsertDefine(DefineNode *list,char *name);
@@ -72,5 +40,4 @@ StructNode *InsertStruct(StructNode *list, char *name, StructRegNode *reglist);
 StructRegNode *InsertStructReg(StructRegNode *list, char *name, int length);
 void ShowStructs (StructNode * list);
            
-
-
+#endif

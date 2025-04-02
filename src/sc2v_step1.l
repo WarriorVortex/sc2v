@@ -19,11 +19,10 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-
 %{
 #include <stdio.h>
+#include "sc2v_step1.h"
 #include "y.tab.h"
-
 extern int yylval;
 extern FILE* yyin;
 extern FILE* yyout;

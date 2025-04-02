@@ -21,9 +21,10 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 #include "sc2v_step1.h"
-
+   
 DefineNode *InsertDefine(DefineNode *list,char *name){
     DefineNode *dl;
 

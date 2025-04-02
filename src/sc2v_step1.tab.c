@@ -74,6 +74,15 @@
 #include <stdlib.h>
 #include "sglib.h"
 #include "sc2v_step1.h"
+#include "lists.h"
+
+/* Global var to store Regs */
+   extern RegNode *regslist;
+/* Global var to store Defines */
+   extern DefineNode *defineslist;
+/*Global var to store Structs */
+   extern StructNode *structslist;
+   extern StructRegNode *structsreglist;
 
   extern int yyparse(void);
   int yylex(void);
@@ -181,7 +190,7 @@
   }
 
 
-#line 185 "sc2v_step1.tab.c"
+#line 194 "sc2v_step1.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -714,18 +723,18 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,   142,   142,   143,   146,   148,   150,   152,   154,   156,
-     158,   160,   162,   164,   166,   168,   170,   172,   174,   176,
-     178,   180,   182,   184,   186,   188,   190,   192,   194,   196,
-     198,   200,   202,   204,   206,   208,   210,   212,   214,   216,
-     218,   220,   222,   224,   226,   228,   230,   232,   234,   236,
-     238,   240,   242,   244,   246,   248,   250,   252,   254,   256,
-     258,   260,   264,   290,   306,   324,   333,   342,   351,   359,
-     368,   389,   412,   436,   455,   472,   487,   502,   517,   536,
-     553,   571,   587,   603,   750,   772,   791,   815,   837,   861,
-     895,   920,   945,   971,   997,  1028,  1083,  1102,  1122,  1154,
-    1179,  1205,  1231,  1257,  1288,  1311,  1320,  1343,  1362,  1370,
-    1378,  1386,  1394,  1414,  1434,  1453,  1472,  1488,  1503,  1527
+       0,   151,   151,   152,   155,   157,   159,   161,   163,   165,
+     167,   169,   171,   173,   175,   177,   179,   181,   183,   185,
+     187,   189,   191,   193,   195,   197,   199,   201,   203,   205,
+     207,   209,   211,   213,   215,   217,   219,   221,   223,   225,
+     227,   229,   231,   233,   235,   237,   239,   241,   243,   245,
+     247,   249,   251,   253,   255,   257,   259,   261,   263,   265,
+     267,   269,   273,   299,   315,   333,   342,   351,   360,   368,
+     377,   398,   421,   445,   464,   481,   496,   511,   526,   545,
+     562,   580,   596,   612,   759,   781,   800,   824,   846,   870,
+     904,   929,   954,   980,  1006,  1037,  1092,  1111,  1131,  1163,
+    1188,  1214,  1240,  1266,  1297,  1320,  1329,  1352,  1371,  1379,
+    1387,  1395,  1403,  1423,  1443,  1462,  1481,  1497,  1512,  1536
 };
 #endif
 
@@ -1394,7 +1403,7 @@ yyreduce:
   switch (yyn)
     {
   case 62: /* struct_access: WORD DOT WORD  */
-#line 265 "sc2v_step1.y"
+#line 274 "sc2v_step1.y"
 {
 
 /*Struct access
@@ -1418,11 +1427,11 @@ yyreduce:
  
  /*printf("Access to struct %s.%s\n",(char *)$1,(char *)$3);*/
 }
-#line 1422 "sc2v_step1.tab.c"
+#line 1431 "sc2v_step1.tab.c"
     break;
 
   case 63: /* minorequal: MINEQ  */
-#line 291 "sc2v_step1.y"
+#line 300 "sc2v_step1.y"
 {
  //This rule is needed because <= in the step two could be confused with a non-blocking assignment
  defineparenthesis = 0;
@@ -1436,11 +1445,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "<=");
 }
-#line 1440 "sc2v_step1.tab.c"
+#line 1449 "sc2v_step1.tab.c"
     break;
 
   case 64: /* endfunc: ENDFUNC  */
-#line 307 "sc2v_step1.y"
+#line 316 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1455,62 +1464,62 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "return ");
 }
-#line 1459 "sc2v_step1.tab.c"
+#line 1468 "sc2v_step1.tab.c"
     break;
 
   case 65: /* voidword: VOID  */
-#line 325 "sc2v_step1.y"
+#line 334 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (verilog == 1)
     fprintf (file, " void");
 }
-#line 1469 "sc2v_step1.tab.c"
+#line 1478 "sc2v_step1.tab.c"
     break;
 
   case 66: /* include: INCLUDE  */
-#line 334 "sc2v_step1.y"
+#line 343 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (verilog == 1)
     fprintf (file, " #include");
 }
-#line 1479 "sc2v_step1.tab.c"
+#line 1488 "sc2v_step1.tab.c"
     break;
 
   case 67: /* dollar: DOLLAR  */
-#line 343 "sc2v_step1.y"
+#line 352 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (verilog == 1)
     fprintf (file, " $");
 }
-#line 1489 "sc2v_step1.tab.c"
+#line 1498 "sc2v_step1.tab.c"
     break;
 
   case 68: /* tab: TAB  */
-#line 352 "sc2v_step1.y"
+#line 361 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (verilog == 1)
     fprintf (file, " \t");
 }
-#line 1499 "sc2v_step1.tab.c"
+#line 1508 "sc2v_step1.tab.c"
     break;
 
   case 69: /* read: READ OPENPAR CLOSEPAR  */
-#line 360 "sc2v_step1.y"
+#line 369 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (verilog == 1)
     fprintf (file, ".read()");
 
 }
-#line 1510 "sc2v_step1.tab.c"
+#line 1519 "sc2v_step1.tab.c"
     break;
 
   case 70: /* definewordsimple: DEFINE WORD  */
-#line 369 "sc2v_step1.y"
+#line 378 "sc2v_step1.y"
 {
 
   defineparenthesis = 0;
@@ -1529,11 +1538,11 @@ yyreduce:
     fprintf (file, "#define %s\n", (char *) yyvsp[0]);
 
 }
-#line 1533 "sc2v_step1.tab.c"
+#line 1542 "sc2v_step1.tab.c"
     break;
 
   case 71: /* defineword: DEFINE WORD WORD  */
-#line 390 "sc2v_step1.y"
+#line 399 "sc2v_step1.y"
 {
 
   defineparenthesis = 0;
@@ -1554,11 +1563,11 @@ yyreduce:
     fprintf (file, "#define %s %s\n", (char *) yyvsp[-1], (char *) yyvsp[0]);
 
 }
-#line 1558 "sc2v_step1.tab.c"
+#line 1567 "sc2v_step1.tab.c"
     break;
 
   case 72: /* definenumber: DEFINE WORD NUMBER  */
-#line 413 "sc2v_step1.y"
+#line 422 "sc2v_step1.y"
 {
 
   defineparenthesis = 0;
@@ -1579,11 +1588,11 @@ yyreduce:
     fprintf (file, "#define %s %d\n", (char *) yyvsp[-1], (int) yyvsp[0]);
 
 }
-#line 1583 "sc2v_step1.tab.c"
+#line 1592 "sc2v_step1.tab.c"
     break;
 
   case 73: /* definemacro: DEFINE WORD OPENPAR CLOSEPAR  */
-#line 437 "sc2v_step1.y"
+#line 446 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   //Macro found
@@ -1600,11 +1609,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "#define %s ()", (char *) yyvsp[-2]);
 }
-#line 1604 "sc2v_step1.tab.c"
+#line 1613 "sc2v_step1.tab.c"
     break;
 
   case 74: /* void: WORD TWODOUBLEPOINTS WORD OPENPAR  */
-#line 456 "sc2v_step1.y"
+#line 465 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1619,11 +1628,11 @@ yyreduce:
     fprintf (file, " %s::%s()", (char *) yyvsp[-3], (char *) yyvsp[-1]);
 
 }
-#line 1623 "sc2v_step1.tab.c"
+#line 1632 "sc2v_step1.tab.c"
     break;
 
   case 75: /* sc_reg: SC_REG LOWER NUMBER BIGGER  */
-#line 473 "sc2v_step1.y"
+#line 482 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1636,11 +1645,11 @@ yyreduce:
 	}
     }
 }
-#line 1640 "sc2v_step1.tab.c"
+#line 1649 "sc2v_step1.tab.c"
     break;
 
   case 76: /* sc_sigreg: SC_SIGREG LOWER NUMBER BIGGER  */
-#line 488 "sc2v_step1.y"
+#line 497 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1653,11 +1662,11 @@ yyreduce:
 	}
     }
 }
-#line 1657 "sc2v_step1.tab.c"
+#line 1666 "sc2v_step1.tab.c"
     break;
 
   case 77: /* integer: INTEGER  */
-#line 503 "sc2v_step1.y"
+#line 512 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1669,11 +1678,11 @@ yyreduce:
 	}
     }
 }
-#line 1673 "sc2v_step1.tab.c"
+#line 1682 "sc2v_step1.tab.c"
     break;
 
   case 78: /* bool: BOOL  */
-#line 518 "sc2v_step1.y"
+#line 527 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1688,11 +1697,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "bool");
 }
-#line 1692 "sc2v_step1.tab.c"
+#line 1701 "sc2v_step1.tab.c"
     break;
 
   case 79: /* range: RANGE OPENPAR NUMBER COLON NUMBER CLOSEPAR  */
-#line 537 "sc2v_step1.y"
+#line 546 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1705,11 +1714,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, ".range(%d,%d)", yyvsp[-3], yyvsp[-1]);
 }
-#line 1709 "sc2v_step1.tab.c"
+#line 1718 "sc2v_step1.tab.c"
     break;
 
   case 80: /* number: NUMBER  */
-#line 554 "sc2v_step1.y"
+#line 563 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1725,11 +1734,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "%d", yyvsp[0]);
 }
-#line 1729 "sc2v_step1.tab.c"
+#line 1738 "sc2v_step1.tab.c"
     break;
 
   case 81: /* increment: WORD INC  */
-#line 572 "sc2v_step1.y"
+#line 581 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1743,11 +1752,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "%s++ ", (char *) yyvsp[-1]);
 }
-#line 1747 "sc2v_step1.tab.c"
+#line 1756 "sc2v_step1.tab.c"
     break;
 
   case 82: /* decrement: WORD DEC  */
-#line 588 "sc2v_step1.y"
+#line 597 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1761,11 +1770,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "%s-- ", (char *) yyvsp[-1]);
 }
-#line 1765 "sc2v_step1.tab.c"
+#line 1774 "sc2v_step1.tab.c"
     break;
 
   case 83: /* word: WORD  */
-#line 604 "sc2v_step1.y"
+#line 613 "sc2v_step1.y"
 {
 
   defineparenthesis = 0;
@@ -1910,11 +1919,11 @@ yyreduce:
     fprintf (file, "%s ", (char *) yyvsp[0]);
   lastswitch=0;
 }
-#line 1914 "sc2v_step1.tab.c"
+#line 1923 "sc2v_step1.tab.c"
     break;
 
   case 84: /* symbol: SYMBOL  */
-#line 751 "sc2v_step1.y"
+#line 760 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1934,11 +1943,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "%s", (char *) yyvsp[0]);
 }
-#line 1938 "sc2v_step1.tab.c"
+#line 1947 "sc2v_step1.tab.c"
     break;
 
   case 85: /* equal: EQUALS  */
-#line 773 "sc2v_step1.y"
+#line 782 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   reg_found=0;
@@ -1955,11 +1964,11 @@ yyreduce:
     fprintf (file, "=");
     
 }
-#line 1959 "sc2v_step1.tab.c"
+#line 1968 "sc2v_step1.tab.c"
     break;
 
   case 86: /* write: WRITE  */
-#line 792 "sc2v_step1.y"
+#line 801 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -1981,11 +1990,11 @@ yyreduce:
       fprintf (file, ".write");
     }
 }
-#line 1985 "sc2v_step1.tab.c"
+#line 1994 "sc2v_step1.tab.c"
     break;
 
   case 87: /* newline: NEWLINE  */
-#line 816 "sc2v_step1.y"
+#line 825 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   writingvar=0;
@@ -2005,11 +2014,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "\n");
 }
-#line 2009 "sc2v_step1.tab.c"
+#line 2018 "sc2v_step1.tab.c"
     break;
 
   case 88: /* colon: COLON  */
-#line 838 "sc2v_step1.y"
+#line 847 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2031,11 +2040,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, ",");
 }
-#line 2035 "sc2v_step1.tab.c"
+#line 2044 "sc2v_step1.tab.c"
     break;
 
   case 89: /* semicolon: SEMICOLON  */
-#line 862 "sc2v_step1.y"
+#line 871 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2066,11 +2075,11 @@ yyreduce:
   defineinvocationfound = 0;
   ignore_semicolon=0;
 }
-#line 2070 "sc2v_step1.tab.c"
+#line 2079 "sc2v_step1.tab.c"
     break;
 
   case 90: /* openpar: OPENPAR  */
-#line 896 "sc2v_step1.y"
+#line 905 "sc2v_step1.y"
 {
   defineparenthesis = 1;
   if (translate == 1 && verilog == 0 && defineinvocationfound == 0)
@@ -2093,11 +2102,11 @@ yyreduce:
   reg_found=0;
   sigreg_found=0;
 }
-#line 2097 "sc2v_step1.tab.c"
+#line 2106 "sc2v_step1.tab.c"
     break;
 
   case 91: /* closepar: CLOSEPAR  */
-#line 921 "sc2v_step1.y"
+#line 930 "sc2v_step1.y"
 {
   if (translate == 1 && verilog == 0)
     {
@@ -2119,11 +2128,11 @@ yyreduce:
     fprintf (file, ")");
 
 }
-#line 2123 "sc2v_step1.tab.c"
+#line 2132 "sc2v_step1.tab.c"
     break;
 
   case 92: /* opencorch: OPENCORCH  */
-#line 946 "sc2v_step1.y"
+#line 955 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2147,11 +2156,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "[");
 }
-#line 2151 "sc2v_step1.tab.c"
+#line 2160 "sc2v_step1.tab.c"
     break;
 
   case 93: /* closecorch: CLOSECORCH  */
-#line 972 "sc2v_step1.y"
+#line 981 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2174,11 +2183,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "]");
 }
-#line 2178 "sc2v_step1.tab.c"
+#line 2187 "sc2v_step1.tab.c"
     break;
 
   case 94: /* openkey: OPENKEY  */
-#line 998 "sc2v_step1.y"
+#line 1007 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2207,11 +2216,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "{");
 }
-#line 2211 "sc2v_step1.tab.c"
+#line 2220 "sc2v_step1.tab.c"
     break;
 
   case 95: /* closekey: CLOSEKEY  */
-#line 1029 "sc2v_step1.y"
+#line 1038 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if(struct_found){
@@ -2263,11 +2272,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "}");
 }
-#line 2267 "sc2v_step1.tab.c"
+#line 2276 "sc2v_step1.tab.c"
     break;
 
   case 96: /* bigger: BIGGER  */
-#line 1084 "sc2v_step1.y"
+#line 1093 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2284,11 +2293,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, ">");
 }
-#line 2288 "sc2v_step1.tab.c"
+#line 2297 "sc2v_step1.tab.c"
     break;
 
   case 97: /* lower: LOWER  */
-#line 1103 "sc2v_step1.y"
+#line 1112 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2305,11 +2314,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "<");
 }
-#line 2309 "sc2v_step1.tab.c"
+#line 2318 "sc2v_step1.tab.c"
     break;
 
   case 98: /* switch: SWITCH  */
-#line 1123 "sc2v_step1.y"
+#line 1132 "sc2v_step1.y"
   {
     defineparenthesis = 0;
     lastswitch=1;
@@ -2339,11 +2348,11 @@ yyreduce:
     else if (verilog == 1)
       fprintf (file, "switch");
   }
-#line 2343 "sc2v_step1.tab.c"
+#line 2352 "sc2v_step1.tab.c"
     break;
 
   case 99: /* case_number: CASE NUMBER SYMBOL  */
-#line 1155 "sc2v_step1.y"
+#line 1164 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2366,11 +2375,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "case %d %s", yyvsp[-1], (char *) yyvsp[0]);
 }
-#line 2370 "sc2v_step1.tab.c"
+#line 2379 "sc2v_step1.tab.c"
     break;
 
   case 100: /* case_hexnumber: CASE HEXA NUMBER SYMBOL  */
-#line 1180 "sc2v_step1.y"
+#line 1189 "sc2v_step1.y"
 {
   //Is a dec number
   defineparenthesis = 0;
@@ -2394,11 +2403,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "case %d %s", yyvsp[-1], (char *) yyvsp[0]);
 }
-#line 2398 "sc2v_step1.tab.c"
+#line 2407 "sc2v_step1.tab.c"
     break;
 
   case 101: /* case_hexword: CASE HEXA WORD SYMBOL  */
-#line 1206 "sc2v_step1.y"
+#line 1215 "sc2v_step1.y"
 {
   //Begin with a-F
   defineparenthesis = 0;
@@ -2422,11 +2431,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "case 0x%s %s", (char *)yyvsp[-1], (char *) yyvsp[0]);
 }
-#line 2426 "sc2v_step1.tab.c"
+#line 2435 "sc2v_step1.tab.c"
     break;
 
   case 102: /* case_hexnumberword: CASE HEXA NUMBER WORD SYMBOL  */
-#line 1232 "sc2v_step1.y"
+#line 1241 "sc2v_step1.y"
 {
   //Hex number beginning with dec number
   defineparenthesis = 0;
@@ -2450,11 +2459,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "case %d%s %s", yyvsp[-2], (char *) yyvsp[-1], (char *)yyvsp[0]);
 }
-#line 2454 "sc2v_step1.tab.c"
+#line 2463 "sc2v_step1.tab.c"
     break;
 
   case 103: /* case_word: CASE WORD SYMBOL  */
-#line 1258 "sc2v_step1.y"
+#line 1267 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2483,11 +2492,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "case %s %s", (char *) yyvsp[-1], (char *) yyvsp[0]);
 }
-#line 2487 "sc2v_step1.tab.c"
+#line 2496 "sc2v_step1.tab.c"
     break;
 
   case 104: /* case_default: DEFAULT SYMBOL  */
-#line 1289 "sc2v_step1.y"
+#line 1298 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2508,22 +2517,22 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "default %s", (char *) yyvsp[0]);
 }
-#line 2512 "sc2v_step1.tab.c"
+#line 2521 "sc2v_step1.tab.c"
     break;
 
   case 105: /* case_only: CASE OPENPAR  */
-#line 1312 "sc2v_step1.y"
+#line 1321 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   //This rule occurs when in Verilog mode a case appears
   if (verilog == 1)
     fprintf (file, "case(");
 }
-#line 2523 "sc2v_step1.tab.c"
+#line 2532 "sc2v_step1.tab.c"
     break;
 
   case 106: /* break: BREAK SEMICOLON  */
-#line 1321 "sc2v_step1.y"
+#line 1330 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2544,11 +2553,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "break;");
 }
-#line 2548 "sc2v_step1.tab.c"
+#line 2557 "sc2v_step1.tab.c"
     break;
 
   case 107: /* hexa: HEXA  */
-#line 1344 "sc2v_step1.y"
+#line 1353 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2565,51 +2574,51 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "0x");
 }
-#line 2569 "sc2v_step1.tab.c"
+#line 2578 "sc2v_step1.tab.c"
     break;
 
   case 108: /* translateoff: TRANSLATEOFF  */
-#line 1363 "sc2v_step1.y"
+#line 1372 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   translate = 0;
   fprintf (stderr, "line: %d Found Translate off directive \n", lineno);
 }
-#line 2579 "sc2v_step1.tab.c"
+#line 2588 "sc2v_step1.tab.c"
     break;
 
   case 109: /* translateon: TRANSLATEON  */
-#line 1371 "sc2v_step1.y"
+#line 1380 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   translate = 1;
   fprintf (stderr, "line: %d Found Translate on directive \n", lineno);
 }
-#line 2589 "sc2v_step1.tab.c"
+#line 2598 "sc2v_step1.tab.c"
     break;
 
   case 110: /* verilogbegin: VERILOGBEGIN  */
-#line 1379 "sc2v_step1.y"
+#line 1388 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   verilog = 1;
   fprintf (stderr, "line: %d Found Verilog Begin directive \n", lineno);
 }
-#line 2599 "sc2v_step1.tab.c"
+#line 2608 "sc2v_step1.tab.c"
     break;
 
   case 111: /* verilogend: VERILOGEND  */
-#line 1387 "sc2v_step1.y"
+#line 1396 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   verilog = 0;
   fprintf (stderr, "line: %d Found Verilog End directive \n", lineno);
 }
-#line 2609 "sc2v_step1.tab.c"
+#line 2618 "sc2v_step1.tab.c"
     break;
 
   case 112: /* ifdef: PIFDEF  */
-#line 1395 "sc2v_step1.y"
+#line 1404 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2627,11 +2636,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "#ifdef");
 }
-#line 2631 "sc2v_step1.tab.c"
+#line 2640 "sc2v_step1.tab.c"
     break;
 
   case 113: /* ifndef: PIFNDEF  */
-#line 1415 "sc2v_step1.y"
+#line 1424 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2649,11 +2658,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "#ifndef");
 }
-#line 2653 "sc2v_step1.tab.c"
+#line 2662 "sc2v_step1.tab.c"
     break;
 
   case 114: /* endif: PENDDEF  */
-#line 1435 "sc2v_step1.y"
+#line 1444 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2670,11 +2679,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "#endif");
 }
-#line 2674 "sc2v_step1.tab.c"
+#line 2683 "sc2v_step1.tab.c"
     break;
 
   case 115: /* pelse: PELSE  */
-#line 1454 "sc2v_step1.y"
+#line 1463 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2691,11 +2700,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "#else");
 }
-#line 2695 "sc2v_step1.tab.c"
+#line 2704 "sc2v_step1.tab.c"
     break;
 
   case 116: /* ttrue: TTRUE  */
-#line 1473 "sc2v_step1.y"
+#line 1482 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2708,11 +2717,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "1");
 }
-#line 2712 "sc2v_step1.tab.c"
+#line 2721 "sc2v_step1.tab.c"
     break;
 
   case 117: /* tfalse: TFALSE  */
-#line 1489 "sc2v_step1.y"
+#line 1498 "sc2v_step1.y"
 {
   defineparenthesis = 0;
   if (translate == 1 && verilog == 0)
@@ -2725,11 +2734,11 @@ yyreduce:
   else if (verilog == 1)
     fprintf (file, "0");
 }
-#line 2729 "sc2v_step1.tab.c"
+#line 2738 "sc2v_step1.tab.c"
     break;
 
   case 118: /* comment: COMMENT  */
-#line 1504 "sc2v_step1.y"
+#line 1513 "sc2v_step1.y"
 {
 if(processfound){
   //To manage comments inside switch statements
@@ -2751,19 +2760,19 @@ if(processfound){
   fprintf (file, " %s", (char *)yyvsp[0]);
  }
 }
-#line 2755 "sc2v_step1.tab.c"
+#line 2764 "sc2v_step1.tab.c"
     break;
 
   case 119: /* struct_dec: STRUCT OPENKEY  */
-#line 1528 "sc2v_step1.y"
+#line 1537 "sc2v_step1.y"
 {
   struct_found=1;
 }
-#line 2763 "sc2v_step1.tab.c"
+#line 2772 "sc2v_step1.tab.c"
     break;
 
 
-#line 2767 "sc2v_step1.tab.c"
+#line 2776 "sc2v_step1.tab.c"
 
       default: break;
     }

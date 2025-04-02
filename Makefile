@@ -12,7 +12,7 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA02111-1307, USA.
 
-SC2V = ../bin/sc2v.sh
+SC2V = ../bin/sc2v.bat
 TESTS = subbytes sc_ex1 dummy1 dummy2 delay_line stmach_k rng md5 half_adder full_adder
 
 all:

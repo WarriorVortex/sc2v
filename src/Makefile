@@ -14,7 +14,6 @@
 
 #
 # Cygwin
-# LEX = flex --header-file=lex.yy.h
 #
 LEX = flex
 YACC = bison -y
@@ -27,15 +26,15 @@ YACC = bison -y
 all:
 	$(YACC) -d sc2v_step1.y
 	$(LEX) sc2v_step1.l
-	gcc -w -m32 lex.yy.c y.tab.c sc2v_step1.c global_list_vars.c -Isrc -o ../bin/sc2v_step1 -lm
+	gcc -w -m32 lex.yy.c y.tab.c sc2v_step1.c global_list_vars.c -Isrc -g -o ../bin/sc2v_step1 -lm
 
 	$(YACC) -d sc2v_step2.y
 	$(LEX) sc2v_step2.l 
-	gcc -w -m32 lex.yy.c y.tab.c sc2v_step2.c global_list_vars.c -Isrc -o ../bin/sc2v_step2 -lm
+	gcc -w -m32 lex.yy.c y.tab.c sc2v_step2.c global_list_vars.c -Isrc -g -o ../bin/sc2v_step2 -lm
 
 	$(YACC) -d sc2v_step3.y
 	$(LEX) sc2v_step3.l
-	gcc -w -m32 lex.yy.c y.tab.c -Isrc global_list_vars.c -o ../bin/sc2v_step3 -lm
+	gcc -w -m32 lex.yy.c y.tab.c -Isrc global_list_vars.c -g -o ../bin/sc2v_step3 -lm
 
 clean:
 	rm -rf lex.* y.* *.o ../bin/sc2v_step2* ../bin/sc2v_step1* ../bin/sc2v_step3*

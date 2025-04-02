@@ -12,12 +12,18 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA02111-1307, USA.
 
+SC2V = ../bin/sc2v.sh
+TESTS = subbytes sc_ex1 dummy1 dummy2 delay_line stmach_k rng md5 half_adder full_adder
+
 all:
 	cd src; make all
 
 test: 
 	cd src; make all
-	cd examples; ../bin/sc2v.sh subbytes;../bin/sc2v.sh sc_ex1; ../bin/sc2v.sh dummy1; ../bin/sc2v.sh dummy2 ;../bin/sc2v.sh delay_line; ../bin/sc2v.sh stmach_k;../bin/sc2v.sh rng; ../bin/sc2v.sh md5; ../bin/sc2v.sh half_adder; ../bin/sc2v.sh full_adder; echo ""; echo "sc2v translated the following files successfully"; echo ""; ls -l *.v 
+	cd examples; \
+	for arg in $(TESTS); do \
+		$(SC2V) $$arg; \
+	done; echo ""; echo "sc2v translated the following files successfully"; echo ""; ls -l *.v 
 
 docs:
 	cd src; doxygen doxygen.cfg 
